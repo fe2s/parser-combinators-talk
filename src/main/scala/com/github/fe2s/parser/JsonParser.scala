@@ -9,7 +9,7 @@ import Parser._
  */
 trait JsonParser extends CharParser {
 
-  def obj = '{' ~> repeatSeparated(entry, ',') <~ '}'  >>  {attrs => JsonObject(attrs)}
+  def obj = '{' ~> (entry repSep ',') <~ '}'  >>  {attrs => JsonObject(attrs)}
 
 
 
@@ -25,7 +25,7 @@ trait JsonParser extends CharParser {
 
   def stringVal = '"' ~> charNot('"').* <~ '"'  >> {v => JsonStringVal(v.mkString)}
 
-  def arrayVal = '[' ~> repeatSeparated(entryVal, ',') <~ ']'  >>  {items =>  JsonArray(items)}
+  def arrayVal = '[' ~> (entryVal repSep ',') <~ ']'  >>  {items =>  JsonArray(items)}
 
   def nullVal = "null" >> {_ => JsonNull()}
 
